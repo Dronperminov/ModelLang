@@ -1,0 +1,17 @@
+program{
+	real pi = 1, numerator = 2;
+	int i, denominator = 1;
+
+	for (; i < 100000; i++) {
+		pi *= numerator / denominator;
+
+		if (i % 2 == 0)
+			denominator += 2;
+		else
+			numerator += 2;
+	}
+
+	pi *= 2;
+	
+	write(pi);
+}

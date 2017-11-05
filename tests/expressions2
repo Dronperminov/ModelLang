@@ -1,0 +1,23 @@
+program {
+	int a = 5, b = 4, c, i;
+	
+	/*boolean f1 = true, f2 = false;*/
+	string s = "hello world", s1 = "sun";
+
+	write("Enter c: ");
+	read(c);
+	write("Enter i: ");
+	read(i);
+
+	write("\nCycle: \n");
+	while (i < c) {
+		write ("i: ", i, "\t\t\tc: " , c, "\n");
+		i = i + 1;
+		c = c - 1;
+		s = s + "1";
+	}
+
+	write("\ni: ", i, "\n");
+	write("c: ", c, "\n");
+	write("s: ", s, "\n");
+}

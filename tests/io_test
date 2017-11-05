@@ -1,0 +1,9 @@
+program {
+	int a, b;
+	real c, d;
+	string e, f;
+	bool g, h;
+
+	read(a, b, c, d, e, f, g, h);
+	write("a: ", a, "\tb: ", b, "\nc: ", c, "\td: ", d, "\ne: ", e, "\tf: ", f, "\ng: ", g, "\th: ", h);
+}

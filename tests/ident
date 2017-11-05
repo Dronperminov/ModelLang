@@ -1,0 +1,19 @@
+program {
+	int a;
+	int b, c = 6;
+	int d, e = -5, f = 5;
+	int g;
+
+	string s;
+	string s1 = "hello";
+	string s2 = "g", s3 = "", s4;
+
+	bool fl;
+	bool fl2 = true, fl3 = false, fl4;
+	bool fl5;
+	bool fl6 = false, fl7 = true;
+
+	s1 = s1 + "hello" + "bla" + "\n" + s2;
+	b = b + a - c + d % e * f / (g - a);
+	fl = not fl2 and not fl3 or fl5;
+}

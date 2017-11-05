@@ -1,0 +1,20 @@
+program {
+	real n, n1, n2, num, sech;
+	int i = 0;
+
+	write("Enter n: ");
+	read(n);
+
+	n1 = 0;
+	n2 = 1;
+
+	for (i = 2; i < n; i = i + 1) {
+		num = n1 + n2;
+
+		n1 = n2;
+		n2 = num;
+		sech = n2 / n1;
+
+		write (n1, ", ", n2, ", ", sech, "\n");
+	}
+}

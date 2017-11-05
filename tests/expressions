@@ -1,0 +1,65 @@
+program {
+	int i, j = 5;
+	bool f, f1 = true, f2 = false;
+	string s = "\"hell\nnnnn\"", s1 = "a", s2 = "b", s3 = "5";
+	string str = "dg
+	f
+	g
+	gh
+
+	g";
+
+	// NEQUAL and EQUAL (boolean) assignments
+	f = i != j;
+	f = i == j;
+	f = 1 < j;
+	f = i > j;
+	f = i <= j;
+	f = i >= j;
+
+	f = s1 == s2;
+	f = s1 != s2;
+	f = s1 < s2;
+	f = s1 > s2;
+
+	// boolean NOT, AND and OR tests
+	f = not f;
+	f = f1 and f2;
+	f = f1 or f2;	
+	f = not (f1 and f2);
+	f = not (f1 or f2);
+	f = not f1 and f2;
+	f = not f1 and f2 or not f1 or f2;
+	f = f1 or f2 or f;
+	f = f1 and f2 and f;
+
+	// integer assignments
+	i = i + j;
+	i = i - j;
+	i = i * j;
+	i = i / j;
+	i = i % j;
+
+	// integer assignments with constant
+	i = i + 1;
+	i = i - 1;
+	i = i * 2;
+	i = i / 2;
+	i = i % 2;
+	
+	s = s;
+	s = s + s + s + s;
+
+	f = (i < j) and ((i != 10) or (j != 0-10));
+	f = not (not (s1 == s2) or not (i == j) or not f1);
+	f = f and not f and f or f and not f; 
+
+	while (i < 15) {
+		write(i, "\n");
+		i = i + 1;
+	}
+
+	if (1 == 4) {
+	write(1, "\n");
+	}
+}

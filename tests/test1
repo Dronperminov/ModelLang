@@ -1,0 +1,14 @@
+program {
+if(true) {
+string s = "hello, World!
+How is your day?
+}"
+}
+
+int a = 45;
+string s = "hello";
+boolean f = true;
+
+1 asdfgh456
+/
+}

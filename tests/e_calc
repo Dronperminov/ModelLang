@@ -1,0 +1,11 @@
+program {
+	int n;
+	real fact = 1, e;
+
+	for (; n < 12; n ++) {
+		e += 1.0 / fact;
+		fact *= n + 1;
+	}
+
+	write (e, "\n");
+}

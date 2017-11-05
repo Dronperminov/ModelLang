@@ -1,0 +1,43 @@
+program {
+	int a, b = 1, c = 0;
+	int i = 2, j = -678, k = 0;
+	int x = -2;
+	int z = 23456;
+	int y = 78, u;
+	bool i1, b1, c1, a1;
+
+	write(0-5, a+b, i or (b or c), a);
+
+	i = 5; 
+	while (c > 100 or (x == z)) {
+		write(i, j, k);
+		read(x, k);
+	}
+
+	for (i = 0; i < 56 + b; i = i + 1)
+		write(i * 6 - a * 7);
+
+
+	if (i > 56) {
+		write(5-78);
+	}
+	else {
+		write(0-5, a+b, i or (b or c), a);
+	}
+
+	if (not a1 or not b1)
+		write(true);
+	else {
+		write(false);
+	}
+
+	do 
+		write(i, j);
+	while (i % j);
+
+	do {
+		WRITE(x, y);
+		read(x, Y);
+	}
+	while (x < y);
+}
