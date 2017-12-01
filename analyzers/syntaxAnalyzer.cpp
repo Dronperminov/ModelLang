@@ -732,9 +732,9 @@ void SyntaxAnalyzer::parse() {
 	if (currLexeme().check(LexemeT::delimeter, LEX_LFIG_BRACKET)) {
 		nextLexeme();
 
-		do {
+		while (!currLexeme().check(LexemeT::delimeter, LEX_RFIG_BRACKET)) {
 			parse();
-		} while (!currLexeme().check(LexemeT::delimeter, LEX_RFIG_BRACKET));
+		}
 
 		nextLexeme();
 	} else if (currLexeme().check(LexemeT::keyword, LEX_IF))
