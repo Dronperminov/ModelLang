@@ -8,23 +8,27 @@
 #include <algorithm>
 
 #include "../enums.h"
+
 #include "../entities/functions.h"
 #include "../entities/lexeme.h"
 #include "../entities/identifier.h"
 #include "../entities/identifiersTable.h"
+
+#include "../ariphmetics/LongInt.h"
+#include "../ariphmetics/LongDouble.h"
 
 class Executor {
 	IdentifiersTable identifiersTable;
 	std::vector<Lexeme> rpn; // reverse polish notation
 	std::stack<Lexeme> stack;
 
-	std::string realToString(REAL_TYPE v) const;
-	std::string intToString(INT_TYPE v) const;
-	REAL_TYPE stringToReal(const std::string& v) const;
-	INT_TYPE stringToInt(const std::string& v) const;
+	std::string realToString(LongDouble v) const;
+	std::string intToString(LongInt v) const;
+	LongDouble stringToReal(const std::string& v) const;
+	LongInt stringToInt(const std::string& v) const;
 
-	INT_TYPE lexemeToInt(Lexeme& lexeme);
-	REAL_TYPE lexemeToReal(Lexeme& lexeme);
+	LongInt lexemeToInt(Lexeme& lexeme);
+	LongDouble lexemeToReal(Lexeme& lexeme);
 	bool lexemeToBool(Lexeme& lexeme);
 	std::string lexemeToString(Lexeme& lexeme);
 

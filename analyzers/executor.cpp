@@ -7,43 +7,23 @@ Executor::Executor(IdentifiersTable& identifiersTable, vector<Lexeme>& rpn) {
 	this->rpn = rpn;
 }
 
-string Executor::realToString(REAL_TYPE v) const {
-	char res[50];
-	int len = sprintf(res, REAL_PRINT_FORMAT, REAL_DIGITS_STACK, v);
-
-	// crop insignificant zeros
-	do 
-		len--;
-	while (len && res[len] != '.' && res[len] == '0');
-
-	if (len)
-		res[len + !(res[len] == '.')] = '\0';
-
-	return res;
+string Executor::realToString(LongDouble v) const {
+	return v.toString();
 }
 
-string Executor::intToString(INT_TYPE v) const {
-	char res[50];
-	sprintf(res, INT_FORMAT, v);
-
-	return res;
+string Executor::intToString(LongInt v) const {
+	return v.toString();
 }
 
-REAL_TYPE Executor::stringToReal(const string& v) const {
-	REAL_TYPE a;
-	sscanf(v.c_str(), REAL_READ_FORMAT, &a);
-
-	return a;
+LongDouble Executor::stringToReal(const string& v) const {
+	return LongDouble(v);
 }
 
-INT_TYPE Executor::stringToInt(const string& v) const {
-	INT_TYPE a;
-	sscanf(v.c_str(), INT_FORMAT, &a);
-
-	return a;
+LongInt Executor::stringToInt(const string& v) const {
+	return LongInt(v);
 }
 
-INT_TYPE Executor::lexemeToInt(Lexeme& lexeme) {
+LongInt Executor::lexemeToInt(Lexeme& lexeme) {
 	LexemeT lexT = lexeme.getType();
 
 	if (lexT == LexemeT::constant_int || lexT == LexemeT::rpn_label)
@@ -52,7 +32,7 @@ INT_TYPE Executor::lexemeToInt(Lexeme& lexeme) {
 	throw string("Expected int lexeme");
 }
 
-REAL_TYPE Executor::lexemeToReal(Lexeme& lexeme) {
+LongDouble Executor::lexemeToReal(Lexeme& lexeme) {
 	LexemeT lexT = lexeme.getType();
 
 	if (lexT == LexemeT::constant_real || lexT == LexemeT::constant_int)
@@ -124,7 +104,7 @@ void Executor::executeIncDec(int value) {
 	Identifier* ident = identifiersTable.getByName(stack.top().getValue());
 	stack.pop();
 
-	INT_TYPE v = stringToInt(ident->getValue());
+	LongInt v = stringToInt(ident->getValue());
 
 	ident->setValue(intToString(v + value));
 }
@@ -144,9 +124,9 @@ void Executor::executeShortOp(string& lexV) {
 		result += arg.getValue();
 	}
 	else if (type == IdentifierT::identifier_int) {
-		INT_TYPE v1 = lexemeToInt(arg);
-		INT_TYPE v2 = stringToInt(ident->getValue());
-		INT_TYPE res;
+		LongInt v1 = lexemeToInt(arg);
+		LongInt v2 = stringToInt(ident->getValue());
+		LongInt res;
 
 		if (lexV == LEX_PLUS)
 			res = v2 + v1;
@@ -161,9 +141,9 @@ void Executor::executeShortOp(string& lexV) {
 
 		result = intToString(res);
 	} else if (type == IdentifierT::identifier_real) {
-		REAL_TYPE v1 = lexemeToReal(arg);
-		REAL_TYPE v2 = stringToReal(ident->getValue());
-		REAL_TYPE res;
+		LongDouble v1 = lexemeToReal(arg);
+		LongDouble v2 = stringToReal(ident->getValue());
+		LongDouble res;
 
 		if (lexV == LEX_PLUS)
 			res = v2 + v1;
@@ -227,9 +207,9 @@ void Executor::executeAriphmetics(string& lexV) {
 		stack.push(Lexeme(LexemeT::constant_string, res));
 	}
 	else if (t1 == IdentifierT::identifier_real || t2 == IdentifierT::identifier_real) {
-		REAL_TYPE v1 = lexemeToReal(arg1);
-		REAL_TYPE v2 = lexemeToReal(arg2);
-		REAL_TYPE res;
+		LongDouble v1 = lexemeToReal(arg1);
+		LongDouble v2 = lexemeToReal(arg2);
+		LongDouble res;
 
 		if (lexV == LEX_PLUS)
 			res = v2 + v1;
@@ -245,18 +225,22 @@ void Executor::executeAriphmetics(string& lexV) {
 		stack.push(Lexeme(LexemeT::constant_real, realToString(res)));
 	}
 	else if (t2 == IdentifierT::identifier_int) {
-		INT_TYPE v1 = lexemeToInt(arg1);
-		INT_TYPE v2 = lexemeToInt(arg2);
-		INT_TYPE res;
+		LongInt v1 = lexemeToInt(arg1);
+		LongInt v2 = lexemeToInt(arg2);
+		LongInt res;
 
-		if (lexV == LEX_PLUS)
+		if (lexV == LEX_PLUS) {
 			res = v2 + v1;
-		else if (lexV == LEX_MINUS)
+		}
+		else if (lexV == LEX_MINUS) {
 			res = v2 - v1;
-		else if (lexV == LEX_MULT)
+		}
+		else if (lexV == LEX_MULT) {
 			res = v2 * v1;
-		else if (v1 != 0)
+		}
+		else if (v1 != 0) {
 			res = (lexV == LEX_DIV) ? (v2 / v1) : (v2 % v1);
+		}
 		else
 			throw string("Division by zero");
 
@@ -280,7 +264,7 @@ void Executor::executeEqualities(string& lexV) {
 
 	if ((t1 == IdentifierT::identifier_real || t1 == IdentifierT::identifier_int) &&
 		(t2 == IdentifierT::identifier_real || t2 == IdentifierT::identifier_int)) {
-		REAL_TYPE v1 = lexemeToReal(arg1), v2 = lexemeToReal(arg2);
+		LongDouble v1 = lexemeToReal(arg1), v2 = lexemeToReal(arg2);
 
 		res = (lexV == LEX_EQUAL) ? (v1 == v2) : (v1 != v2);
 	}
@@ -303,8 +287,8 @@ void Executor::executeComparsions(string& lexV) {
 	IdentifierT t2 = getLexemeType(arg2);	
 
 	if (t1 == IdentifierT::identifier_real || t2 == IdentifierT::identifier_real) {
-		REAL_TYPE v1 = lexemeToReal(arg1);
-		REAL_TYPE v2 = lexemeToReal(arg2);
+		LongDouble v1 = lexemeToReal(arg1);
+		LongDouble v2 = lexemeToReal(arg2);
 
 		if (lexV == LEX_LESS)
 			res = v2 < v1;
@@ -316,8 +300,8 @@ void Executor::executeComparsions(string& lexV) {
 			res = v2 >= v1;		
 	}
 	else if (t1 == IdentifierT::identifier_int) {
-		INT_TYPE v1 = lexemeToInt(arg1);
-		INT_TYPE v2 = lexemeToInt(arg2);
+		LongInt v1 = lexemeToInt(arg1);
+		LongInt v2 = lexemeToInt(arg2);
 
 		if (lexV == LEX_LESS)
 			res = v2 < v1;
@@ -339,19 +323,19 @@ void Executor::executeComparsions(string& lexV) {
 }
 
 void Executor::executeGo(unsigned long& rpnIndex) {
-	rpnIndex = lexemeToInt(stack.top()) - 1;
+	rpnIndex = stoi(stack.top().getValue()) - 1;
 	stack.pop();
 }
 
 void Executor::executeFgo(unsigned long& rpnIndex) {
-	INT_TYPE i = lexemeToInt(stack.top());
+	LongInt i = lexemeToInt(stack.top());
 	stack.pop();
 
 	Lexeme arg2 = stack.top();
 	stack.pop();
 
 	if (!lexemeToBool(arg2))
-		rpnIndex = i - 1;
+		rpnIndex = stoi(i.toString()) - 1;
 }
 
 void Executor::executeRead() {
@@ -360,14 +344,15 @@ void Executor::executeRead() {
 	stack.pop();
 
 	if (identT == IdentifierT::identifier_real) {
-		REAL_TYPE r;
-		cin >> r;
+		long double x;
+		cin >> x;
+		LongDouble r(x);
 		cin.ignore(); // skip '\n' character
 
 		ident->setValue(realToString(r));
 	}
 	else if (identT == IdentifierT::identifier_int) {
-		INT_TYPE k;
+		LongInt k;
 		cin >> k;
 		cin.ignore(); // skip '\n' character
 
@@ -390,10 +375,7 @@ void Executor::executeRead() {
 }
 
 void Executor::executeWrite() {
-	if (stack.top().getType() == LexemeT::constant_real)
-		printf(REAL_PRINT_FORMAT, REAL_DIGITS_OUT, stringToReal(stack.top().getValue()));
-	else
-		cout << stack.top().getValue();
+	cout << stack.top().getValue();
 
 	stack.pop();
 }
@@ -406,8 +388,9 @@ void Executor::executeAssign() {
 	IdentifierT identT = ident->getType();
 	stack.pop();
 
-	if (identT == IdentifierT::identifier_int && getLexemeType(arg1) == IdentifierT::identifier_real)
-		ident->setValue(intToString((INT_TYPE) lexemeToReal(arg1)));
+	if (identT == IdentifierT::identifier_int && getLexemeType(arg1) == IdentifierT::identifier_real) {
+		ident->setValue(lexemeToReal(arg1).intToString());
+	}
 	else
 		ident->setValue(arg1.getValue());
 }

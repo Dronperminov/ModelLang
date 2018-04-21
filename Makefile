@@ -1,4 +1,4 @@
-FILES=main.cpp entities/*.cpp analyzers/*.cpp
+FILES=main.cpp entities/*.cpp analyzers/*.cpp ariphmetics/*.cpp
 STD=14
 OPTIMIZE_LEVEL=3
 FLAGS=-Wall -Wunreachable-code -pedantic

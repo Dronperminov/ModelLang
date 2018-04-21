@@ -15,16 +15,6 @@ const std::string optPrintAll = "-A";
 const std::string optPrintTime = "-t";
 const std::string optExecute = "-e";
 
-// MAIN DATA TYPES
-#define INT_TYPE long
-#define INT_FORMAT "%ld"
-
-#define REAL_TYPE double
-#define REAL_READ_FORMAT "%lf"
-#define REAL_PRINT_FORMAT "%.*lf"
-#define REAL_DIGITS_STACK 16
-#define REAL_DIGITS_OUT 9
-
 // KEYWORDS
 #define LEX_PROGRAM "program"
 
