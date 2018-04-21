@@ -221,8 +221,8 @@ void Executor::executeAriphmetics(string& lexV) {
 	IdentifierT t2 = getLexemeType(arg2);	
 
 	if (t2 == IdentifierT::identifier_string) {
-		string& res = arg1.getValue();
-		res += arg2.getValue();
+		string& res = arg2.getValue();
+		res += arg1.getValue();
 
 		stack.push(Lexeme(LexemeT::constant_string, res));
 	}
