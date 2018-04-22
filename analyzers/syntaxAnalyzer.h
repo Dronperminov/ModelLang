@@ -56,6 +56,7 @@ class SyntaxAnalyzer {
 	void parseDoWhile();
 	void parseRead();
 	void parseWrite();
+	void parseBreak();
 
 	void parse();
 

@@ -728,6 +728,12 @@ void SyntaxAnalyzer::parseWrite() {
 	nextLexeme();
 }
 
+void SyntaxAnalyzer::parseBreak() {
+	rpn.push_back(Lexeme(LexemeT::rpn_label, "-1"));
+    rpn.push_back(Lexeme(LexemeT::rpn_go, "0"));
+    nextLexeme();
+}
+
 void SyntaxAnalyzer::parse() {
 	if (currLexeme().check(LexemeT::delimeter, LEX_LFIG_BRACKET)) {
 		nextLexeme();
@@ -746,16 +752,24 @@ void SyntaxAnalyzer::parse() {
 	else if (currLexeme().check(LexemeT::delimeter, LEX_SEMICOLON))
 		nextLexeme();
 	else {
-		if (currLexeme().check(LexemeT::keyword, LEX_DO))
+		if (currLexeme().check(LexemeT::keyword, LEX_DO)) {
 			parseDoWhile();
-		else if (currLexeme().check(LexemeT::keyword, LEX_READ))
+		}
+		else if (currLexeme().check(LexemeT::keyword, LEX_READ)) {
 			parseRead();
-		else if (currLexeme().check(LexemeT::keyword, LEX_WRITE))
+		}
+		else if (currLexeme().check(LexemeT::keyword, LEX_WRITE)) {
 			parseWrite();
-		else if (currLexeme().isDatatype()) // declaration
+		}
+		else if (currLexeme().check(LexemeT::keyword, LEX_BREAK)) {
+			parseBreak();
+		}
+		else if (currLexeme().isDatatype()) { // declaration
 			throw string("All declarations must be in first section");
-		else // assignment
+		}
+		else { // assignment
 			assignment();
+		}
 
 		checkDelimeter(LEX_SEMICOLON);		
 		nextLexeme();
@@ -805,7 +819,9 @@ bool SyntaxAnalyzer::analyze() {
 		while (haveLexemes())
 			parse();
 
-		insertBreakLabels(0, rpn.size(), rpn.size());
+		for (size_t i = 0; i < rpn.size(); i++)
+			if (rpn[i].check(LexemeT::rpn_label, "-1"))
+				throw string("Break statement not within loop");
 	}
 	catch (string &e) {
 		cout << endl << YELLOW << lines[currLexeme().getLineNumber()] << RESET << "\t (line " << (currLexeme().getLineNumber() + 1)<< ")" << endl;

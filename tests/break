@@ -1,0 +1,12 @@
+program {
+	int i;
+
+	for (; i < 10; i++) {
+		if (i == 5)
+			break;
+
+		write("i = ", i, "\n");
+	}
+
+	//break;
+}
